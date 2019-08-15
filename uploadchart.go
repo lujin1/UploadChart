@@ -62,12 +62,12 @@ func main() {
 		cli.StringFlag{
 			Name:  "password, p",
 			Usage: "passworld for harbor",
-			Value: "@dvantecH_2019",
+			Value: "admin",
 		},
 		cli.StringFlag{
 			Name:  "harborurl, url",
 			Usage: "harborurl for harbor",
-			Value: "https://harbor.wise-paas.io/api/chartrepo/tekton/charts",
+			Value: "https://harbor/api/chartrepo/tekton/charts",
 		},
 	}
 	app.Action = func(c *cli.Context) error {
