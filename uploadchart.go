@@ -59,7 +59,7 @@ func tgzfile(file string, filetgzname string) error {
 		// archive format is determined by file extension
 		err := archiver.Archive([]string{file}, filetgzname)
 		if err != nil {
-    			return err
+    		return err
 		}
 	}else{
 		fmt.Printf("%s is not a dir\n", file)
@@ -73,7 +73,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "UploadChart"
 	app.Usage = "upload chart .tgz to harbor"
-	app.Version = "0.0.2"
+	app.Version = "0.0.1"
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "file, f",
@@ -91,7 +91,12 @@ func main() {
 		cli.StringFlag{
 			Name:  "harborurl, url",
 			Usage: "harborurl for harbor",
-			Value: "https://harbor/api/chartrepo/tekton/charts",
+			Value: "https://harbor",
+		},
+		cli.StringFlag{
+			Name: "harborproject, project",
+			Usage: "harborproject",
+			Value: "library",
 		},
 	}
 	app.Action = func(c *cli.Context) error {
@@ -99,9 +104,12 @@ func main() {
 		harborurl := c.String("harborurl")
 		username := c.String("username")
 		password := c.String("password")
+		harborproject := c.String("harborproject")
 		//fmt.Println(file,harborurl,username,password)
-
+		var repourl string
 		var filetgzname string
+
+		repourl = harborurl + "/api/chartrepo/" + harborproject +"/charts"
 
 		if IsDir(file) {
 			filetgzname = file + ".tgz"
@@ -115,7 +123,7 @@ func main() {
 			if err != nil {
 				fmt.Println(err)
 			}
-			code, text := postfile(harborurl, filetgzname, username, password)
+			code, text := postfile(repourl, filetgzname, username, password)
 			fmt.Printf("code: %d \nresponse: %s\n", code,text)
 		}else {
 			//time.Sleep(time.Second * 10)
