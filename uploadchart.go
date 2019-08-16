@@ -59,7 +59,7 @@ func tgzfile(file string, filetgzname string) error {
 		// archive format is determined by file extension
 		err := archiver.Archive([]string{file}, filetgzname)
 		if err != nil {
-    		return err
+    			return err
 		}
 	}else{
 		fmt.Printf("%s is not a dir\n", file)
